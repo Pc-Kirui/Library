@@ -3,9 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Library</title>
+    <title>Grid for Library App</title>
+    <link rel="stylesheet" href="main.css" />
   </head>
   <body>
+    <section class="logIn"></section>
+    <section class="sideBar">
+      <div class="open-modal">
+        <a href="#modal" class="add"> <span>+</span>New Book</a>
+      </div>
+
+      <div class="modal" id="modal">
+        <a href="#" class="close-btn" id="close-modal">&times;</a>
+
+        <form>
+          <input type="text" placeholder="Book Title" required />
+          <input type="text" placeholder="Author" required />
+          <input type="number" placeholder="Number of Pages" required />
+
+          <div class="form-row">
+            <label for="status" class="status-label">Status:</label>
+            <div class="status-options">
+              <label for="read">
+                <input type="radio" name="status" /> Read
+              </label>
+              <label for="not-read">
+                <input type="radio" name="status" />
+                Not Read
+              </label>
+            </div>
+          </div>
+
+          <div class="wrapper">
+            <button class="btn">Add Book</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="books-count">
+        <p>Total Books: <span>0</span></p>
+        <p>Books Read: <span>0</span></p>
+        <p>Books Not Read: <span>0</span></p>
+      </div>
+    </section>
+    <section class="mainContent"></section>
+    <section class="footer"></section>
     <script src="script.js"></script>
   </body>
 </html>
