@@ -5,9 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Grid for Library App</title>
     <link rel="stylesheet" href="main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <section class="logIn"></section>
+    <section class="logIn">
+      <p class="welcome">Log in to get started</p>
+      <img
+        src="assets/local_library_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg"
+        class="logo"
+      />
+      <form action="" class="user_login">
+        <input type="text" placeholder="user" class="login_input" />
+        <input
+          type="text"
+          placeholder="PIN"
+          maxlength="4"
+          class="login_input"
+        />
+        <button class="login_btn">&rarr;</button>
+      </form>
+    </section>
     <section class="sideBar">
       <div class="open-modal">
         <a href="#modal" class="add"> <span>+</span>New Book</a>
@@ -17,9 +39,24 @@
         <a href="#" class="close-btn" id="close-modal">&times;</a>
 
         <form>
-          <input type="text" placeholder="Book Title" required />
-          <input type="text" placeholder="Author" required />
-          <input type="number" placeholder="Number of Pages" required />
+          <input
+            type="text"
+            placeholder="Book Title"
+            required
+            class="modal-input"
+          />
+          <input
+            type="text"
+            placeholder="Author"
+            required
+            class="modal-input"
+          />
+          <input
+            type="number"
+            placeholder="Number of Pages"
+            required
+            class="modal-input"
+          />
 
           <div class="form-row">
             <label for="status" class="status-label">Status:</label>
@@ -47,7 +84,11 @@
       </div>
     </section>
     <section class="mainContent"></section>
-    <section class="footer"></section>
+    <section class="footer">
+      <footer>
+        <p>&copy; Pc Kirui. All rights reserved</p>
+      </footer>
+    </section>
     <script src="script.js"></script>
   </body>
 </html>
