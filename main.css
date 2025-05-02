@@ -20,8 +20,7 @@
 
 html {
   font-size: 62.5%;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -44,6 +43,49 @@ body {
   grid-area: logIn;
   background-color: var(--platinum);
   border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.welcome {
+  font-size: 1.8em;
+  font-weight: 500;
+}
+
+.logo {
+  height: 5.25rem;
+}
+
+.user_login {
+  display: flex;
+}
+
+.login_input {
+  border: none;
+  width: 12rem;
+  margin-right: 1rem;
+  border-radius: 10rem;
+  text-align: center;
+  font-size: 1.6rem;
+  padding: 0.5rem 2rem;
+  border: 1px solid var(--white);
+  transition: all 0.3s;
+}
+
+.login_input:focus {
+  outline: none;
+  border: 1px solid #ccc;
+}
+
+.login_btn {
+  border: none;
+  cursor: pointer;
+  background: none;
+  font-size: 2.2rem;
+  color: inherit;
+  transition: all 0.3s;
 }
 
 .sideBar {
@@ -118,7 +160,7 @@ body {
   text-decoration: none;
 }
 
-input {
+.modal-input {
   width: 100%;
   padding: 0.75em;
   margin-bottom: 1em;
@@ -199,4 +241,13 @@ input {
   grid-area: footer;
   background-color: var(--platinum);
   border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--silverT);
+}
+
+footer p {
+  font-size: 1.6rem;
+  text-align: center;
 }
