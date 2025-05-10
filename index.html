@@ -11,6 +11,16 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
   </head>
   <body>
     <section class="logIn">
@@ -22,7 +32,7 @@
       <form action="" class="user_login">
         <input type="text" placeholder="user" class="login_input" />
         <input
-          type="text"
+          type="password"
           placeholder="PIN"
           maxlength="4"
           class="login_input"
@@ -38,41 +48,39 @@
       <div class="modal" id="modal">
         <a href="#" class="close-btn" id="close-modal">&times;</a>
 
-        <form>
+        <form id="book-form">
           <input
             type="text"
             placeholder="Book Title"
             required
             class="modal-input"
+            name="title"
           />
           <input
             type="text"
             placeholder="Author"
             required
             class="modal-input"
+            name="author"
           />
           <input
             type="number"
             placeholder="Number of Pages"
             required
             class="modal-input"
+            name="pages"
           />
 
-          <div class="form-row">
-            <label for="status" class="status-label">Status:</label>
-            <div class="status-options">
-              <label for="read">
-                <input type="radio" name="status" /> Read
-              </label>
-              <label for="not-read">
-                <input type="radio" name="status" />
-                Not Read
-              </label>
-            </div>
-          </div>
+          <select name="status" required>
+            <option value="" disabled selected hidden>
+              Select reading status
+            </option>
+            <option value="Read">Read</option>
+            <option value="Unread">Unread</option>
+          </select>
 
           <div class="wrapper">
-            <button class="btn">Add Book</button>
+            <button class="btn" type="submit">Add Book</button>
           </div>
         </form>
       </div>
@@ -83,7 +91,25 @@
         <p>Books Not Read: <span>0</span></p>
       </div>
     </section>
-    <section class="mainContent"></section>
+    <section class="mainContent">
+      <table class="books-data">
+        <caption>
+          My Book Collection
+        </caption>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Pages</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </section>
     <section class="footer">
       <footer>
         <p>&copy; Pc Kirui. All rights reserved</p>
