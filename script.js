@@ -1,16 +1,101 @@
-//Array to store book objects
-
-const myLibrary = [];
-
-//The constructor for books
-
-function Book(title, author, pages, status, id) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.status = status;
-  this.id = crypto.randomUUID();
+// Modifying plain constructor to a class
+class Book {
+  constructor(title, author, pages, status, id) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.status = status;
+    this.id = crypto.randomUUID();
+  }
 }
+
+class Library {
+  constructor(
+    tableBodySelector = "#table-body",
+    countsSelector = ".books-count"
+  ) {
+    this.books = [];
+    this.tableBody = document.querySelector(tableBodySelector);
+    this.countsContainer = document.querySelector(countsSelector);
+    this._setupEventDelegation();
+  }
+
+  add(book) {
+    this.books.push(book);
+    this.render();
+  }
+
+  deleteById(id) {
+    this.books = this.books.filter((b) => b.id !== id);
+    this.render();
+  }
+
+  toggleStatus(id) {
+    const b = this.books.find((x) => x.id === id);
+    if (b) {
+      b.status = b.status === "Read" ? "Unread" : "Read";
+      this.render();
+    }
+  }
+
+  render() {
+    if (!this.tableBody) return;
+    this.tableBody.innerHTML = "";
+
+    this.books.forEach((book, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${index + 1}</td>
+      <td>${book.title}</td>
+      <td>${book.author}</td>
+      <td>${book.pages}</td>
+      <td>${book.status === "Read" ? "✅" : "❌"}</td>
+      <td><button class="delete-book" data-id="${
+        book.id
+      }" title="Delete Book"><i class="fa-sharp fa-solid fa-trash" style="color: #e66565;"></i></button></td>
+      <td><button class="toggle-status" data-id="${
+        book.id
+      }" title="Toggle status"><i class="fa-solid fa-toggle-off" style="color: #d5d2c8;"></i></button></td>`;
+      this.tableBody.appendChild(row);
+    });
+
+    this.updateCounts();
+  }
+
+  updateCounts() {
+    const total = this.books.length;
+    const read = this.books.filter((b) => b.status === "Read").length;
+    const unread = total - read;
+    if (!this.countsContainer) return;
+    const spans = this.countsContainer.querySelectorAll("span");
+    if (spans.length >= 3) {
+      spans[0].textContent = total;
+      spans[1].textContent = read;
+      spans[2].textContent = unread;
+    }
+  }
+
+  _setupEventDelegation() {
+    if (!this.tableBody) return;
+
+    this.tableBody.addEventListener("click", (e) => {
+      const deleteBtn = e.target.closest(".delete-book");
+      if (deleteBtn) {
+        const id = deleteBtn.dataset.id;
+        this.deleteById(id);
+        return;
+      }
+
+      const toggleBtn = e.target.closest(".toggle-status");
+      if (toggleBtn) {
+        const id = toggleBtn.dataset.id;
+        this.toggleStatus(id);
+        return;
+      }
+    });
+  }
+}
+
+const library = new Library("#table-body", ".books-count");
 
 function capitalizeWords(str) {
   return str
@@ -20,105 +105,24 @@ function capitalizeWords(str) {
     .join(" ");
 }
 
-//Function that takes params, create a book then store it in the array
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const title = capitalizeWords(e.target.title.value);
+  const author = capitalizeWords(e.target.author.value);
+  const pages = e.target.pages.value;
+  const status = e.target.status.value;
 
-function addBookToLibrary() {
-  const myForm = document.getElementById("book-form");
-
-  myForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const title = capitalizeWords(e.target.title.value);
-    const author = capitalizeWords(e.target.author.value);
-    const pages = e.target.pages.value;
-    const status = e.target.status.value;
-
-    const newBook = new Book(title, author, pages, status);
-    myLibrary.push(newBook);
-
-    displayBook();
-
-    e.target.reset();
-  });
-}
-
-//function that loops through the array and display each book on the page
-
-function displayBook() {
-  const tableBody = document.getElementById("table-body");
-  tableBody.innerHTML = "";
-
-  myLibrary.forEach(function (book, index) {
-    const row = document.createElement("tr");
-    row.innerHTML = `<td>${index + 1}</td> <td>${book.title}</td> <td>${
-      book.author
-    }</td> <td>${book.pages}</td> <td>${
-      book.status === "Read" ? "✅" : "❌"
-    }</td>
-    <td>
-    <button class="delete-book" data-id="${
-      book.id
-    }"><i class="fa-sharp fa-solid fa-trash" style="color: #e66565;"></i></button>
-    </td>
-    <td><button class="toggle-status" data-id="${
-      book.id
-    }"><i class="fa-solid fa-toggle-off" style="color: #d5d2c8;"></i></button></td>`;
-
-    tableBody.appendChild(row);
-  });
-
-  // Event listeners for deleting/updating status
-  const delButtons = document.querySelectorAll(".delete-book");
-  delButtons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      const bookId = button.dataset.id;
-      console.log(bookId);
-      deleteBook(bookId);
-    });
-  });
-
-  //Toggling book status
-  const toggleButtons = document.querySelectorAll(".toggle-status");
-  toggleButtons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      const bookId = button.dataset.id;
-      toggleStatus(bookId);
-    });
-  });
-
-  updateBookCounts();
-}
-
-//Function to delete book by id
-function deleteBook(bookId) {
-  const index = myLibrary.findIndex((b) => b.id === bookId);
-  if (index !== -1) {
-    myLibrary.splice(index, 1);
-    displayBook();
+  if (!title || !author) {
+    alert("Please provide the title and author.");
+    return;
   }
-}
 
-//Toggle read/Unread status
-function toggleStatus(bookId) {
-  const book = myLibrary.find((b) => b.id === bookId);
-  if (book) {
-    book.status = book.status === "Read" ? "Unread" : "Read";
-    displayBook();
-  }
+  const newBook = new Book(title, author, pages, status);
+  library.add(newBook);
+  e.target.reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  addBookToLibrary();
+  const myForm = document.getElementById("book-form");
+  if (myForm) myForm.addEventListener("submit", handleFormSubmit);
 });
-
-//Updating Book Count
-function updateBookCounts() {
-  const total = myLibrary.length;
-  const read = myLibrary.filter((b) => b.status === "Read").length;
-  const unread = total - read;
-
-  const spans = document.querySelectorAll(".books-count span");
-  spans[0].textContent = total;
-  spans[1].textContent = read;
-  spans[2].textContent = unread;
-}
